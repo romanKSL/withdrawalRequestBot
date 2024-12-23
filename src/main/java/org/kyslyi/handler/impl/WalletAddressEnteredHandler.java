@@ -20,7 +20,6 @@ public class WalletAddressEnteredHandler extends UserRequestHandler{
 	@Override
 	public boolean isApplicable(UserRequest userRequest) {
 		return isTextMessage(userRequest.getUpdate()) &&
-				userRequest.getUpdate().hasMessage() &&
 				userRequest.getUserSession().getState().equals(ConversationState.WAITING_FOR_WALLET_ADDRESS);
 	}
 

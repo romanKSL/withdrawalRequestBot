@@ -6,13 +6,13 @@ import org.kyslyi.model.UserRequest;
 import org.kyslyi.service.TelegramService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
-public class StartCommandHandler extends UserRequestHandler {
+public class CancelHandler extends UserRequestHandler {
 	
-	private static final String COMMAND = "/start";
+	private static final String COMMAND = "❌ Cancel";
 	
     private final TelegramService telegramService;
 
-    public StartCommandHandler(TelegramService telegramService) {
+    public CancelHandler(TelegramService telegramService) {
         this.telegramService = telegramService;
     }
 
@@ -24,7 +24,6 @@ public class StartCommandHandler extends UserRequestHandler {
 	@Override
 	public void handle(UserRequest request) {
 		ReplyKeyboard replyKeyboard = KeyboardHelper.buildMainMenu();
-		telegramService.sendMessage(request.getChatId(), "Hello there!");
 		telegramService.sendMessage(request.getChatId(), "Choose your operation from the menu below ⤵️", replyKeyboard);
 	}
 }

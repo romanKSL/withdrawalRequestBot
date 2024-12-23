@@ -17,18 +17,19 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Application {
 	
-    private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+    private static Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws TelegramApiException {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         try {
-        	LOG.info("Registering bot...");
+        	log.info("Registering bot...");
         	TelegramService telegramService = new TelegramService();
         	UserSessionService userSessionService = new UserSessionService();
         	
         	TelegramLongPollingBot withdrawalRequestBot = new WithdrawalRequestBot(
             		new Dispatcher(new ArrayList<UserRequestHandler>(Arrays.asList(
             				new StartCommandHandler(telegramService),
+            				new CancelHandler(telegramService),
             				new MakeWithdrawalHandler(telegramService, userSessionService),
             				new WalletAddressEnteredHandler(telegramService, userSessionService),
             				new AmountEnteredHandler(telegramService, userSessionService)))),
@@ -36,9 +37,9 @@ public class Application {
 
             telegramBotsApi.registerBot(withdrawalRequestBot);
             telegramService.setBotSender(withdrawalRequestBot);
-            LOG.info("Telegram bot is ready to accept updates from user...");
+            log.info("Telegram bot is ready to accept updates from user...");
         } catch (TelegramApiRequestException e) {
-        	LOG.error("Failed to register bot(check internet connection / bot token or make sure only one instance of bot is running).");
+        	log.error("Failed to register bot(check internet connection / bot token or make sure only one instance of bot is running).");
         }
     }
 }

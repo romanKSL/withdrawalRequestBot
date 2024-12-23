@@ -25,7 +25,6 @@ public class AmountEnteredHandler extends UserRequestHandler {
 	@Override
 	public boolean isApplicable(UserRequest userRequest) {
 		return isTextMessage(userRequest.getUpdate()) &&
-				userRequest.getUpdate().hasMessage() &&
 				userRequest.getUserSession().getState().equals(ConversationState.WAITING_FOR_AMOUNT);
 	}
 
