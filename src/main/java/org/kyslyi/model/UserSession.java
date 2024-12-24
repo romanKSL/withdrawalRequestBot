@@ -26,10 +26,18 @@ public class UserSession {
 		this.state = state;
 	}
 
+	public String getWalletAddress() {
+		return this.walletAddress;
+	}
+	
 	public void setWalletAddress(String walletAddress) {
 		this.walletAddress = walletAddress;
 	}
 
+	public Double getAmount() {
+		return this.amount;
+	}
+	
 	public void setAmount(String amount) {
 		this.amount = Double.valueOf(amount);
 	}

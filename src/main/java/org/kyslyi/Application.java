@@ -1,10 +1,5 @@
 package org.kyslyi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.kyslyi.handler.UserRequestHandler;
-import org.kyslyi.handler.impl.*;
 import org.kyslyi.service.TelegramService;
 import org.kyslyi.service.UserSessionService;
 import org.slf4j.Logger;
@@ -27,13 +22,8 @@ public class Application {
         	UserSessionService userSessionService = new UserSessionService();
         	
         	TelegramLongPollingBot withdrawalRequestBot = new WithdrawalRequestBot(
-            		new Dispatcher(telegramService, userSessionService, new ArrayList<UserRequestHandler>(Arrays.asList(
-            				new StartCommandHandler(telegramService),
-            				new CancelHandler(telegramService),
-            				new MakeWithdrawalHandler(telegramService, userSessionService),
-            				new WalletAddressEnteredHandler(telegramService, userSessionService),
-            				new AmountEnteredHandler(telegramService, userSessionService)))),
-            		userSessionService);
+        			new Dispatcher(telegramService, userSessionService),
+        			userSessionService);
 
             telegramBotsApi.registerBot(withdrawalRequestBot);
             telegramService.setBotSender(withdrawalRequestBot);
@@ -42,4 +32,10 @@ public class Application {
         	log.error("Failed to register bot(check internet connection / bot token or make sure only one instance of bot is running).");
         }
     }
+//    new ArrayList<UserRequestHandler>(Arrays.asList(
+//			new StartCommandHandler(telegramService),
+//			new CancelHandler(telegramService),
+//			new MakeWithdrawalHandler(telegramService, userSessionService),
+//			new WalletAddressEnteredHandler(telegramService, userSessionService),
+//			new AmountEnteredHandler(telegramService, userSessionService))
 }

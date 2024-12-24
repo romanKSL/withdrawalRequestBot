@@ -6,13 +6,11 @@ import org.kyslyi.service.UserSessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class WithdrawalRequestBot extends TelegramLongPollingBot {
 
-    private static Logger log = LoggerFactory.getLogger(Application.class);
+    private static Logger log = LoggerFactory.getLogger(WithdrawalRequestBot.class);
     
     private final Dispatcher dispatcher;
     private final UserSessionService userSessionService;
@@ -37,7 +35,13 @@ public class WithdrawalRequestBot extends TelegramLongPollingBot {
 
             UserRequest userRequest = new UserRequest(update, userId, session);
             
-            boolean dispatched = this.dispatcher.dispatch(userRequest);
+            boolean dispatched;
+            if(update.getMessage().isCommand()) {
+            	dispatched = dispatcher.executeCommand(userRequest);
+            } else {
+            	dispatched = dispatcher.executeText(userRequest);
+            }
+            
             
             if(!dispatched) {
             	log.warn("!Unexpected update from user");
@@ -55,30 +59,11 @@ public class WithdrawalRequestBot extends TelegramLongPollingBot {
 
             UserRequest userRequest = new UserRequest(update, userId, session);
             
-            boolean dispatched = dispatcher.execute(userRequest);
+            boolean dispatched = dispatcher.executeInline(userRequest);
             
             if(!dispatched) {
             	log.warn("!Unexpected update from user");
             }
-//        	String callData = update.getCallbackQuery().getData();
-//            Long messageId = (long) update.getCallbackQuery().getMessage().getMessageId();
-//            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-//            log.info("[{}, {}] : {}", chatId, messageId, callData);
-//            if (callData.equals("⬇️ Withdraw")) {
-//                String answer = "Updated message text";
-//                EditMessageText new_message = EditMessageText.builder()
-//                    .chatId(chatId.toString())
-//                    .messageId(messageId.intValue())
-//                    .text(answer)
-//                    .build();
-//                try {
-//                	log.info("Trying to edit message");
-//                    execute(new_message);
-//                } catch (TelegramApiException e) {
-//                    e.printStackTrace();
-//                }
-//        }
-        	
         } else {
         	log.warn("Unexpected update from user");
         }
