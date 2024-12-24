@@ -27,7 +27,7 @@ public class Application {
         	UserSessionService userSessionService = new UserSessionService();
         	
         	TelegramLongPollingBot withdrawalRequestBot = new WithdrawalRequestBot(
-            		new Dispatcher(new ArrayList<UserRequestHandler>(Arrays.asList(
+            		new Dispatcher(telegramService, userSessionService, new ArrayList<UserRequestHandler>(Arrays.asList(
             				new StartCommandHandler(telegramService),
             				new CancelHandler(telegramService),
             				new MakeWithdrawalHandler(telegramService, userSessionService),

@@ -5,6 +5,7 @@ import org.kyslyi.helper.KeyboardHelper;
 import org.kyslyi.model.UserRequest;
 import org.kyslyi.service.TelegramService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 public class StartCommandHandler extends UserRequestHandler {
 	

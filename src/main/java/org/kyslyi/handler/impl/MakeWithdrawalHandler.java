@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
 public class MakeWithdrawalHandler extends UserRequestHandler {
 
-	private static final String COMMAND = "⬇️ Withdraw";
+	private static final String COMMAND = "/withdraw";
 	
     private final TelegramService telegramService;
     private final UserSessionService userSessionService;
@@ -28,8 +28,7 @@ public class MakeWithdrawalHandler extends UserRequestHandler {
 
 	@Override
 	public void handle(UserRequest request) {
-		ReplyKeyboard replyKeyboard = KeyboardHelper.buildBackAndCancelMenu();
-		telegramService.sendMessage(request.getChatId(), "Enter your wallet address:", replyKeyboard);
+		telegramService.editMessage(request.getUpdate(), "Enter your wallet address:", KeyboardHelper.buildBackAndCancelMenu());
 		
 		UserSession userSession = request.getUserSession();
 		userSession.setState(ConversationState.WAITING_FOR_WALLET_ADDRESS);

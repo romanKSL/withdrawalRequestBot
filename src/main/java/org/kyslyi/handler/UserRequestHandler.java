@@ -28,11 +28,11 @@ public abstract class UserRequestHandler {
 //		return false;
 //	}
 	
-	public boolean isTextMessage(Update update) {
-        return update.hasMessage() && update.getMessage().hasText();
-    }
+//	public boolean isTextMessage(Update update) {
+//        return update.hasMessage() && update.getMessage().hasText();
+//    }
 
     public boolean isNeededMessage(Update update, String text) {
-        return isTextMessage(update) && update.getMessage().getText().equals(text);
+        return update.getMessage().getText().equals(text);
     }
 }
